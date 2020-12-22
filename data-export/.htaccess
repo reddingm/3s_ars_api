@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Restricted Files"
+AuthBasicProvider file
+AuthUserFile /var/web/hosts/home_agentconnection/data-export/.htpasswd
+Require user hare
