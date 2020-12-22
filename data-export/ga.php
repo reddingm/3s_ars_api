@@ -1,6 +1,6 @@
 <?php
 //$serverpath =  '..';
-$serverpath =  '/var/web/hosts/home_agentconnection';
+$serverpath =  '/var/web/hosts/home_ars';
 
 require_once($serverpath."/db.php");
 require_once($serverpath."/functions.php");
@@ -8,7 +8,6 @@ require_once($serverpath."/functions.php");
 $query_date = date("Y-m-d", time() - 60 * 60 * 24);
 
 $dbdata = getRawDataforPlatformExportsDate($query_date);
-//die();
 
 build_ga_file_for_ga($query_date, $dbdata);
 ?>

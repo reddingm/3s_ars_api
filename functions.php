@@ -101,7 +101,7 @@ function migrate_tmp_to_main($import_table,$main_table,$query_date){
 function getRawDataforPlatformExportsDate($query_date){
 	global $conn;
 
-	$sql = "select * from leads where query_date = '".$query_date."' and lead_status = 'Matched' and google_click_id != ''";
+	$sql = "select * from leads where query_date = '".$query_date."' and lead_type_id = 18 and src = 'ARSSEM' and google_click_id != ''";
 		
 	$result = $conn->query($sql);	
 	//echo $sql."\n\n";
@@ -118,7 +118,7 @@ function build_ga_file_for_ga($query_date,$dbdata){
 			header("Content-type: text/csv");
 			header("Content-disposition: attachment; filename=ga-yesterday.csv");
 			echo "Parameters:TimeZone=America/New_York;\n";
-			echo "\"Google Click ID\",\"Conversion Name\",\"Conversion Value\",\"Conversion Time\",\"Conversion Currency\"\n";
+			echo "\"Google Click ID\",\"Conversion Name\",\"Conversion Time\",\"Conversion Value\",\"Conversion Currency\"\n";
 		
 
 			while($row = $dbdata->fetch_assoc()) {
@@ -126,7 +126,7 @@ function build_ga_file_for_ga($query_date,$dbdata){
 				$format = "Y-m-d H:i:s";
 				$modified_date = date($format, strtotime("$thisdate + 3 hours"));
 				
-				echo "\"".strip_gclid($row["google_click_id"])."\",\"".determine_conversion_name($row["company_name"])."\",\"".$modified_date."\",\"".$row["price"]."\",\"\"\n";
+				echo "\"".strip_gclid($row["google_click_id"])."\",\"".determine_conversion_name($row["company_name"])."\",\"".$modified_date."\",\"".str_replace('$', '', $row["price"])."\",\"\"\n";
 
 			}
 
@@ -134,7 +134,7 @@ function build_ga_file_for_ga($query_date,$dbdata){
 			header("Content-type: text/csv");
 			header("Content-disposition: attachment; filename=ga-yesterday.csv");
 			echo "Parameters:TimeZone=America/New_York;\n";
-			echo "\"Google Click ID\",\"Conversion Name\",\"Conversion Value\",\"Conversion Time\",\"Conversion Currency\"\n";
+			echo "\"Google Click ID\",\"Conversion Name\",\"Conversion Time\",\"Conversion Value\",\"Conversion Currency\"\n";
 		}
 /*
 
@@ -168,7 +168,7 @@ function strip_gclid($gclid){
 function determine_conversion_name($partner_name){
 	global $conn;
 	
-	$sql = "select conversion from conversion_lookups where company_name = '".$partner_name."' LIMIT 1";
+	$sql = "select conversion from ars_conversion_lookups where company_name = '".$partner_name."' LIMIT 1";
 	//echo $sql;
 	//die();
 	$result = $conn->query($sql);

@@ -2,7 +2,7 @@
 $servername = "127.0.0.1";
 $username = "attribution";
 $password = "osidfosdi@#ew}{we290do";
-$dbname = "3sh_agentconnection_api";
+$dbname = "3sh_powellandsons_api";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
